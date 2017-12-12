@@ -13,18 +13,23 @@
 int server_handshake(int *to_client) {
 
   int to_server;
-  int *clientPID;
+  char clientPID[HANDSHAKE_BUFFER_SIZE];
   
-  mkfifo( "toServer", 0644);
-  to_server = open( "toServer", O_RDONLY);
+  mkfifo( SERVERNAME, 0644);
+  to_server = open( SERVERNAME, O_RDONLY);
 
-  read(to_server, clientPID, sizeof(clientPID)); 
+  read(to_server, clientPID, HANDSHAKE_BUFFER_SIZE); 
 
-  remove("toServer");
+  remove(SERVERNAME);
   
   *to_client = open( clientPID, O_WRONLY);
   
   write( *to_client, ACK, HANDSHAKE_BUFFER_SIZE);
+
+  char msg[HANDSHAKE_BUFFER_SIZE];
+  read(to_server, msg, HANDSHAKE_BUFFER_SIZE);
+
+  printf("%s\n", msg);
   
   return 0;
 }
@@ -40,17 +45,22 @@ int server_handshake(int *to_client) {
   returns the file descriptor for the downstream pipe.
   =========================*/
 int client_handshake(int *to_server) {
-  *to_server = open("toServer", O_WRONLY);
-  mkfifo(getpid(), 0644);
-  int to_client = open(getpid(), O_RDONLY);
-  int *client = getpid();
+
+  *to_server = open(SERVERNAME, O_WRONLY);
+
+  char client[HANDSHAKE_BUFFER_SIZE];
+  sprintf(client, "%d",  getpid());
+
+  mkfifo(client, 0644);
   
   write(*to_server, client, HANDSHAKE_BUFFER_SIZE);
-
-  char* msg;
-  read(*to_client, msg, HANDSHAKE_BUFFER_SIZE);
-
-  remove(getpid());
+  
+  int to_client = open(client, O_RDONLY);
+  
+  char msg[HANDSHAKE_BUFFER_SIZE];
+  read(to_client, msg, HANDSHAKE_BUFFER_SIZE);
+  
+  remove(client);
   
   write(*to_server, msg, HANDSHAKE_BUFFER_SIZE);
   
