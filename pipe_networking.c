@@ -12,21 +12,20 @@
   =========================*/
 int server_handshake(int *to_client) {
 
-  int to_server, clientPID;
+  int to_server;
+  int *clientPID;
   
   mkfifo( "toServer", 0644);
   to_server = open( "toServer", O_RDONLY);
 
   read(to_server, clientPID, sizeof(clientPID)); 
 
-  close("toServer");
+  remove("toServer");
   
   *to_client = open( clientPID, O_WRONLY);
-
-  close(*to_client);
   
   write( *to_client, ACK, HANDSHAKE_BUFFER_SIZE);
-
+  
   return 0;
 }
 
