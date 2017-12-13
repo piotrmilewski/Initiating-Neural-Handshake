@@ -51,7 +51,7 @@ int client_handshake(int *to_server) {
   char* msg;
   read(*to_client, msg, HANDSHAKE_BUFFER_SIZE);
 
-  close(getpid());
+  remove(getpid());
   
   write(*to_server, msg, HANDSHAKE_BUFFER_SIZE);
   
