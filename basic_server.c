@@ -1,8 +1,10 @@
 #include "pipe_networking.h"
 
+/*
 char do_stuff(char msg){
   return msg;
 }
+*/
 
 int main() {
 
@@ -15,7 +17,7 @@ int main() {
   read(from_client, msg_from_client, BUFFER_SIZE);
 
   char msg_to_client[BUFFER_SIZE];
-  msg_to_client = do_stuff(msg_from_client);
+  sprintf(msg_to_client, "%s", msg_from_client);
 
   write(to_client, msg_to_client, BUFFER_SIZE);
 }
