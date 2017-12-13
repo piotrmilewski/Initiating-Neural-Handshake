@@ -15,4 +15,5 @@ int main() {
   write( to_server, buf, BUFFER_SIZE);
 
   read( from_server, buf, BUFFER_SIZE);
+  printf("%s\n", buf);
 }
