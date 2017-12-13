@@ -5,12 +5,28 @@
   server_handshake
   args: int * to_client
 
-  Perofrms the client side pipe 3 way handshake.
+  Performs the client side pipe 3 way handshake.
   Sets *to_client to the file descriptor to the downstream pipe.
 
   returns the file descriptor for the upstream pipe.
   =========================*/
 int server_handshake(int *to_client) {
+
+  int to_server, clientPID;
+  
+  mkfifo( "toServer", 0644);
+  to_server = open( "toServer", O_RDONLY);
+
+  read(to_server, clientPID, sizeof(clientPID)); 
+
+  close("toServer");
+  
+  *to_client = open( clientPID, O_WRONLY);
+
+  close(*to_client);
+  
+  write( *to_client, ACK, HANDSHAKE_BUFFER_SIZE);
+
   return 0;
 }
 
