@@ -1,5 +1,8 @@
 #include "pipe_networking.h"
 
+char* do_stuff(char* msg){
+  return msg;
+}
 
 int main() {
 
