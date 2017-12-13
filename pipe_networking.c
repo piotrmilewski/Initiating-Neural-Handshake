@@ -31,7 +31,7 @@ int server_handshake(int *to_client) {
 
   printf("%s\n", msg);
   
-  return 0;
+  return to_server;
 }
 
 
@@ -59,10 +59,10 @@ int client_handshake(int *to_server) {
   
   char msg[HANDSHAKE_BUFFER_SIZE];
   read(to_client, msg, HANDSHAKE_BUFFER_SIZE);
-  
+
   remove(client);
   
   write(*to_server, msg, HANDSHAKE_BUFFER_SIZE);
   
-  return 0;
+  return to_client;
 }
