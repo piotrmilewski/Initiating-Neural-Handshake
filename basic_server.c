@@ -1,6 +1,6 @@
 #include "pipe_networking.h"
 
-char* do_stuff(char* msg){
+char do_stuff(char msg){
   return msg;
 }
 
