@@ -2,12 +2,17 @@
 
 
 void do_stuff(char* msg){
-  while(*msg){
-    if(*msg >= 'a' && *msg <= 'm')
-      *msg += 13;
-    if(*msg >= 'n' && *msg <= 'z')
-      *msg -= 13;
-    msg ++;
+  char* temp = msg;
+  while(*temp){
+    if((*temp >= 'a' && *temp <= 'm') || (*temp >= 'A' && *temp <= 'M')){
+      printf("adding\n");
+      *temp += 13;
+    } 
+    else if((*temp >= 'n' && *temp <= 'z')||(*temp >= 'N' && *temp <= 'Z')) {
+      printf("subtracting\n");
+      *temp -= 13;
+    }
+    temp ++;
   }
 }
 
