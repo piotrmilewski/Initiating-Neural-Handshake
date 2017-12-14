@@ -1,18 +1,17 @@
 #include "pipe_networking.h"
 
 
-void do_stuff(char* msg){
-  char* temp = msg;
-  while(*temp){
-    if((*temp >= 'a' && *temp <= 'm') || (*temp >= 'A' && *temp <= 'M')){
+void rot13(char* msg){
+  while(*msg){
+    if((*msg >= 'a' && *msg <= 'm') || (*msg >= 'A' && *msg <= 'M')){
       printf("adding\n");
-      *temp += 13;
+      *msg += 13;
     } 
-    else if((*temp >= 'n' && *temp <= 'z')||(*temp >= 'N' && *temp <= 'Z')) {
+    else if((*msg >= 'n' && *msg <= 'z')||(*msg >= 'N' && *msg <= 'Z')) {
       printf("subtracting\n");
-      *temp -= 13;
+      *msg -= 13;
     }
-    temp ++;
+    msg ++;
   }
 }
 
@@ -27,7 +26,7 @@ int main() {
   char buf[BUFFER_SIZE];
   read(from_client, buf, BUFFER_SIZE);
 
-  do_stuff(buf);
+  rot13(buf);
   
   write(to_client, buf, BUFFER_SIZE);
 }
