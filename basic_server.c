@@ -4,11 +4,9 @@
 void rot13(char* msg){
   while(*msg){
     if((*msg >= 'a' && *msg <= 'm') || (*msg >= 'A' && *msg <= 'M')){
-      printf("adding\n");
       *msg += 13;
     } 
     else if((*msg >= 'n' && *msg <= 'z')||(*msg >= 'N' && *msg <= 'Z')) {
-      printf("subtracting\n");
       *msg -= 13;
     }
     msg ++;
